@@ -1,0 +1,38 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type="number"] {
+	-moz-appearance: textfield !important;
+}
+
+.modal-body {
+	max-height: calc(100vh - 210px) !important;
+	overflow-y: auto !important;
+}
+
+input[type="file"] {
+	cursor: pointer;
+}
+
+label.custom-file-label {
+	overflow: hidden;
+}
+
+.sidebar{
+	overflow: auto;
+}
+
+.login-logo img{
+	height: 40px;
+}
+
+.brand-text{
+	font-size: medium;
+}
+
+.info a.d-block{
+	font-size: small;
+}

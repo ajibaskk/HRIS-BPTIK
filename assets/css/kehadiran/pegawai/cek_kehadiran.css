@@ -1,0 +1,37 @@
+.external-event {
+	cursor: auto;
+}
+.fc-content {
+	text-align: center !important;
+	vertical-align: middle !important;
+}
+
+.fc-title {
+	color: white;
+	font-size: large;
+}
+
+.external-event {
+	font-size: x-large;
+}
+
+@media only screen and (max-width: 1024px) {
+	.fc-title {
+		font-size: small;
+	}
+	.external-event {
+		font-size: large;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.fc-title {
+		font-size: smaller;
+	}
+}
+
+@media only screen and (max-width: 425px) {
+	.fc-title {
+		font-size: xx-small;
+	}
+}
