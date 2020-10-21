@@ -69,7 +69,7 @@ $(document).ready(function () {
 						}
 						$("#modal-detail #tanggal-lahir").html(tanggalLahir);
 						var jk = "";
-						if (user["jenis_kelamin"] == 0) {
+						if (user["jenis_kelamin"] === 0) {
 							jk = "Laki-laki";
 						} else {
 							jk = "Perempuan";
@@ -77,15 +77,15 @@ $(document).ready(function () {
 						$("#modal-detail #jenis-kelamin").html(jk);
 
 						var j = "";
-						if (user["jenjang"] == 0) {
+						if (user["jenjang"] === 0) {
 							j = "SMA/SMK";
-						} else if (user["jenjang"] == 1) {
+						} else if (user["jenjang"] === 1) {
 							j = "D3";
-						} else if (user["jenjang"] == 2) {
+						} else if (user["jenjang"] === 2) {
 							j = "S1";
-						} else if (user["jenjang"] == 3) {
+						} else if (user["jenjang"] === 3) {
 							j = "S2";
-						} else if (user["jenjang"] == 4) {
+						} else if (user["jenjang"] === 4) {
 							j = "S3";
 						}
 						$("#modal-detail #jenjang").html(j);

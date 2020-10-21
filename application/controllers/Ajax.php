@@ -74,7 +74,6 @@ class Ajax extends CI_Controller
 
             $this->load->model('User_model');
             $this->load->model('Kehadiran_model');
-            $user = $this->User_model->getUser($nip);
             $late = $this->Kehadiran_model->getCountLate($nip, $month, $year);
             $ontime = $this->Kehadiran_model->getCountPresent($nip, $month, $year) - $late;
 

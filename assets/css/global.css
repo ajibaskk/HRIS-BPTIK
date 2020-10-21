@@ -1,23 +1,25 @@
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
+	-moz-appearance: none;
 	margin: 0;
 }
 
 input[type="number"] {
-	-moz-appearance: textfield !important;
+	-moz-appearance: textfield;
+	-webkit-appearance: textfield;
 }
 
 .modal-body {
-	max-height: calc(100vh - 210px) !important;
-	overflow-y: auto !important;
+	max-height: calc(100vh - 210px);
+	overflow-y: auto;
 }
 
 input[type="file"] {
 	cursor: pointer;
 }
 
-label.custom-file-label {
+.custom-file-label {
 	overflow: hidden;
 }
 
@@ -33,6 +35,6 @@ label.custom-file-label {
 	font-size: medium;
 }
 
-.info a.d-block{
+.info .d-block{
 	font-size: small;
 }

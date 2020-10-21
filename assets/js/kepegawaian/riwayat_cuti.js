@@ -68,16 +68,16 @@ $(document).ready(function () {
 						);
 						$("#modal-detail #alasan-cuti").html(cuti["alasan"]);
 						var jk = "";
-						if (cuti["jenis_kelamin"] == 0) {
+						if (cuti["jenis_kelamin"] === 0) {
 							jk = "Laki-laki";
 						} else {
 							jk = "Perempuan";
 						}
 						$("#modal-detail #jenis-kelamin").html(jk);
 						var c = "";
-						if (cuti["persetujuan"] == 0) {
+						if (cuti["persetujuan"] === 0) {
 							c = "Belum Disetujui";
-						} else if (cuti["persetujuan"] == 1) {
+						} else if (cuti["persetujuan"] === 1) {
 							c = "Disetujui";
 						} else {
 							c = "Ditolak";
@@ -86,7 +86,7 @@ $(document).ready(function () {
 						$("#modal-detail").modal("show");
 
 						$("#modal-detail #view-file").click(function () {
-							if (cuti["type"] == 0) {
+							if (cuti["type"] === 0) {
 								$("#view-modal object.modal-body").attr(
 									"data",
 									"data:application/pdf;base64," + cuti["file"]
@@ -105,7 +105,7 @@ $(document).ready(function () {
 									$("#view-modal").modal("hide");
 									$("#modal-detail").modal("show");
 								});
-							} else if (cuti["type"] == 1) {
+							} else if (cuti["type"] === 1) {
 								$("#view-modal-pict .modal-body>img").attr(
 									"src",
 									"data:image/jpeg;base64," + cuti["file"]
