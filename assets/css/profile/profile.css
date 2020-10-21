@@ -1,24 +1,24 @@
-#profile {
+.card-body.profile {
 	width: 100%;
 }
 
-#jenis-kelamin {
+.form-control.select2.jenis_kelamin {
 	width: 100%;
 }
 
 
-.input-group .photo-label{
+.input-group .photo-label {
 	font-size: medium;
 }
 
 @media only screen and (max-width: 425px) {
-	.input-group .photo-label{
+	.input-group .photo-label {
 		font-size: x-small;
 	}
 }
 
 @media only screen and (max-width: 375px) {
-	.input-group .photo-label{
+	.input-group .photo-label {
 		font-size: xx-small;
 	}
 }

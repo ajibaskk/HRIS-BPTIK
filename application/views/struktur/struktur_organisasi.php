@@ -3,10 +3,10 @@
   <h1 class="text-dark ml-2">Struktur Organisasi</h1>
 </div>
 
-<div id="strukturorganisasi">
+<div id="strukturorganisasi" class="strukturorganisasi">
 
   <div class="d-flex">
-    <div id="kepala" class="card bg-light mb-3">
+    <div id="kepala" class="card bg-light mb-3 kepala">
       <div class="card-header text-center align-middle">
         <h4><span class="badge badge-primary">Kepala BPTIK DIKBUD</span></h4>
       </div>
@@ -38,7 +38,7 @@
   <div class="hl"></div>
 
 
-  <div id="tu" class="card bg-light mb-3">
+  <div id="tu" class="card bg-light mb-3 tu">
     <div class="card-header text-center align-middle">
       <h5><span class="badge badge-primary">Kepala Sub. Bagian Tata Usaha</span></h5>
     </div>
@@ -95,7 +95,7 @@
       </div>
     </div>
 
-    <div id="pengembangan" class="card bg-light mb-3">
+    <div id="pengembangan" class="card bg-light mb-3 pengembangan">
       <div class="card-header text-center align-middle">
         <h5><span class="badge badge-primary">Kepala Seksi Pengembangan TIK</span></h5>
       </div>

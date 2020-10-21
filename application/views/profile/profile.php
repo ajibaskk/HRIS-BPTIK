@@ -66,7 +66,7 @@
         <h3 class="card-title">Profil Akun</h3>
       </div>
       <!-- /.card-header -->
-      <div id="profile" class="card-body">
+      <div id="profile" class="card-body profile">
         <div class="row">
           <div class="col-md-12 px-5">
             <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
@@ -142,7 +142,7 @@
               <div class="form-group">
                 <label>Jenis Kelamin</label>
                 <div class="input-group">
-                  <select id="jenis_kelamin" name="jenis_kelamin" class="form-control select2" style="width: 100%;" disabled>
+                  <select id="jenis_kelamin" name="jenis_kelamin" class="form-control select2 jenis_kelamin" style="width: 100%;" disabled>
                     <option <?php if ($data['jenis_kelamin'] == 0) echo 'selected'; ?> value="0">Laki-Laki</option>
                     <option <?php if ($data['jenis_kelamin'] == 1) echo 'selected'; ?> value="1">Perempuan</option>
                   </select>

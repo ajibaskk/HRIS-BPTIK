@@ -7,7 +7,7 @@ input::-webkit-inner-spin-button {
 
 input[type="number"] {
 	-moz-appearance: textfield;
-	-webkit-appearance: textfield;
+	-webkit-appearance: none;
 }
 
 .modal-body {
@@ -23,18 +23,18 @@ input[type="file"] {
 	overflow: hidden;
 }
 
-.sidebar{
+.sidebar {
 	overflow: auto;
 }
 
-.login-logo img{
+.login-logo img {
 	height: 40px;
 }
 
-.brand-text{
+.brand-text {
 	font-size: medium;
 }
 
-.info .d-block{
+.info .d-block {
 	font-size: small;
 }
