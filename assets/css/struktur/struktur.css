@@ -22,7 +22,7 @@
 	min-width: 350px;
 }
 
-.card.bg-light.mb-3.kepala {
+.kepala {
 	margin-left: 200px;
 }
 
@@ -42,14 +42,12 @@
 	margin-bottom: 200px;
 }
 
-.card.bg-light.mb-3.tu {
+.tu {
 	margin-top: -300px;
 	margin-left: 550px;
 }
 
 .lb {
-	box-sizing: border-box;
-	border: 3px solid black;
 	height: 40px;
 	width: 540px;
 	margin-top: 83px;
@@ -61,6 +59,6 @@
 	margin-top: 41px;
 }
 
-.card.bg-light.mb-3.pengembangan {
+.pengembangan {
 	margin-left: 180px;
 }
