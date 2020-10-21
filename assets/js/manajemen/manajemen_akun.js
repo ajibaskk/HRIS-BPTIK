@@ -155,31 +155,31 @@ $(document).ready(function () {
 							$("#modal-ubah #unit-kerja-3").prop("selected", true);
 						}
 
-						if (user["jenjang"] == 0) {
+						if (user["jenjang"] === 0) {
 							$("#modal-ubah #jenjang-0").prop("selected", true);
 							$("#modal-ubah #jenjang-1").prop("selected", false);
 							$("#modal-ubah #jenjang-2").prop("selected", false);
 							$("#modal-ubah #jenjang-3").prop("selected", false);
 							$("#modal-ubah #jenjang-4").prop("selected", false);
-						} else if (user["jenjang"] == 1) {
+						} else if (user["jenjang"] === 1) {
 							$("#modal-ubah #jenjang-0").prop("selected", false);
 							$("#modal-ubah #jenjang-1").prop("selected", true);
 							$("#modal-ubah #jenjang-2").prop("selected", false);
 							$("#modal-ubah #jenjang-3").prop("selected", false);
 							$("#modal-ubah #jenjang-4").prop("selected", false);
-						} else if (user["jenjang"] == 2) {
+						} else if (user["jenjang"] === 2) {
 							$("#modal-ubah #jenjang-0").prop("selected", false);
 							$("#modal-ubah #jenjang-1").prop("selected", false);
 							$("#modal-ubah #jenjang-2").prop("selected", true);
 							$("#modal-ubah #jenjang-3").prop("selected", false);
 							$("#modal-ubah #jenjang-4").prop("selected", false);
-						} else if (user["jenjang"] == 3) {
+						} else if (user["jenjang"] === 3) {
 							$("#modal-ubah #jenjang-0").prop("selected", false);
 							$("#modal-ubah #jenjang-1").prop("selected", false);
 							$("#modal-ubah #jenjang-2").prop("selected", false);
 							$("#modal-ubah #jenjang-3").prop("selected", true);
 							$("#modal-ubah #jenjang-4").prop("selected", false);
-						} else if (user["jenjang"] == 4) {
+						} else if (user["jenjang"] === 4) {
 							$("#modal-ubah #jenjang-0").prop("selected", false);
 							$("#modal-ubah #jenjang-1").prop("selected", false);
 							$("#modal-ubah #jenjang-2").prop("selected", false);
@@ -187,7 +187,7 @@ $(document).ready(function () {
 							$("#modal-ubah #jenjang-4").prop("selected", true);
 						}
 
-						if (user["jenis_kelamin"] == 0) {
+						if (user["jenis_kelamin"] === 0) {
 							$("#modal-ubah #jenis-kelamin-0").prop("selected", true);
 							$("#modal-ubah #jenis-kelamin-1").prop("selected", false);
 						} else {
@@ -199,7 +199,7 @@ $(document).ready(function () {
 							$("#modal-ubah #level-0").prop("selected", false);
 							$("#modal-ubah #level-1").prop("selected", false);
 							$("#modal-ubah #level-2").prop("selected", true);
-						} else if (user["level"] == 1) {
+						} else if (user["level"] === 1) {
 							$("#modal-ubah #level-0").prop("selected", false);
 							$("#modal-ubah #level-1").prop("selected", true);
 							$("#modal-ubah #level-2").prop("selected", false);
