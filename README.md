@@ -24,4 +24,5 @@ System ini digunakan sebagai layanan SDM internal kantor BPTIK DIKBUD Jawa Tenga
 
 - [@d4rabi](https://github.com/d4rabi) - Modul Kehadiran
 - [@ajibaskk](https://github.com/ajibaskk) - Modul Cuti
+
 # hris-bptik

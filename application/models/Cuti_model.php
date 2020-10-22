@@ -1,15 +1,13 @@
 <?php
-class Cuti_model extends CI_Model
-{
+class Cuti_model extends CI_Model {
 
-    public function getCuti($id)
-    {
+    public function getCuti($idCuti) {
         $this->db->select('cp.id_cuti_pegawai,u.foto, u.nip, u.alamat, u.jenis_kelamin, u.nama, k.nama_unit, u.tempat_lahir, u.tanggal_lahir, c.jenis, cp.alasan, cp.persetujuan, cp.tanggal_cuti_mulai, cp. tanggal_cuti_akhir, cp.file, cp.type');
         $this->db->from('users as u, unit_kerja as k, cuti_pegawai as cp, jenis_cuti as c');
         $this->db->where('u.unit_kerja = k.id_unit_kerja');
         $this->db->where('u.nip = cp.nip');
         $this->db->where('cp.jenis = c.id_jenis_cuti');
-        $this->db->where('cp.id_cuti_pegawai', $id);
+        $this->db->where('cp.id_cuti_pegawai', $idCuti);
         $cuti = $this->db->get()->row_array();
         $cuti['foto'] = base64_encode($cuti['foto']);
         $cuti['file'] = base64_encode($cuti['file']);
@@ -17,8 +15,7 @@ class Cuti_model extends CI_Model
         return $cuti;
     }
 
-    public function getCutis()
-    {
+    public function getCutis() {
         $this->db->select('cp.id_cuti_pegawai,u.nip, u.alamat, u.jenis_kelamin, u.nama, k.nama_unit, u.tempat_lahir, u.tanggal_lahir, c.jenis, cp.alasan, cp.persetujuan, cp.tanggal_cuti_mulai, cp.tanggal_cuti_akhir');
         $this->db->from('users as u, unit_kerja as k, cuti_pegawai as cp, jenis_cuti as c');
         $this->db->where('u.unit_kerja = k.id_unit_kerja');
@@ -31,8 +28,7 @@ class Cuti_model extends CI_Model
         return $cuti;
     }
 
-    public function getCutisUnit($unit)
-    {
+    public function getCutisUnit($unit) {
         $this->db->select('cp.id_cuti_pegawai,u.nip, u.alamat, u.jenis_kelamin, u.nama, k.nama_unit, u.tempat_lahir, u.tanggal_lahir, c.jenis, cp.alasan, cp.persetujuan, cp.tanggal_cuti_mulai, cp.tanggal_cuti_akhir');
         $this->db->from('users as u, unit_kerja as k, cuti_pegawai as cp, jenis_cuti as c');
         $this->db->where('u.unit_kerja = k.id_unit_kerja');
@@ -46,8 +42,7 @@ class Cuti_model extends CI_Model
         return $cuti;
     }
 
-    public function getCutisIndividu($nip)
-    {
+    public function getCutisIndividu($nip) {
         $this->db->select('cp.id_cuti_pegawai,u.nip, u.jenis_kelamin, u.nama, k.nama_unit, c.jenis, cp.persetujuan, cp.tanggal_cuti_mulai, cp. tanggal_cuti_akhir');
         $this->db->from('users as u, unit_kerja as k, cuti_pegawai as cp, jenis_cuti as c');
         $this->db->where('u.unit_kerja = k.id_unit_kerja');
@@ -60,8 +55,7 @@ class Cuti_model extends CI_Model
         return $cuti;
     }
 
-    public function getCutisIndividu2($nip)
-    {
+    public function getCutisIndividu2($nip) {
         $this->db->select('cp.id_cuti_pegawai, u.nip, u.jenis_kelamin, u.nama, k.nama_unit, c.jenis, cp.persetujuan, cp.tanggal_cuti_mulai, cp. tanggal_cuti_akhir');
         $this->db->from('users as u, unit_kerja as k, cuti_pegawai as cp, jenis_cuti as c');
         $this->db->where('u.unit_kerja = k.id_unit_kerja');
@@ -74,8 +68,7 @@ class Cuti_model extends CI_Model
         return $cuti;
     }
 
-    public function getCountCutisIndividu($nip, $month, $year)
-    {
+    public function getCountCutisIndividu($nip, $month, $year) {
         $this->db->select('tanggal_cuti_mulai, tanggal_cuti_akhir');
         $this->db->from('cuti_pegawai');
         $this->db->where('jenis <> 4');
@@ -84,35 +77,34 @@ class Cuti_model extends CI_Model
         $this->db->where('(YEAR(tanggal_cuti_mulai)=' . $year . ' OR YEAR(tanggal_cuti_akhir) =' . $year . ')');
         $this->db->where('nip', $nip);
         $tanggal = $this->db->get()->result_array();
-        $i = 0;
+        $itr = 0;
         $count = 0;
         $this->load->helper('date');
         $this->load->model('Libur_model');
         foreach ($tanggal as $t) {
             if (intval(date('Y', strtotime($t['tanggal_cuti_mulai']))) < intval($year)) {
                 if (intval(date('m', strtotime($t['tanggal_cuti_akhir']))) < intval($month)) {
-                    $tanggal[$i]['tanggal_cuti_akhir'] = dateLastDayOfMonth($t['tanggal_cuti_mulai']);
+                    $tanggal[$itr]['tanggal_cuti_akhir'] = dateLastDayOfMonth($t['tanggal_cuti_mulai']);
                 } else if (intval(date('m', strtotime($t['tanggal_cuti_mulai']))) > intval($month)) {
-                    $tanggal[$i]['tanggal_cuti_mulai'] = date($year . '-' . $month . '-01', strtotime($t['tanggal_cuti_mulai']));
-                }
-            } else {
-                if (intval(date('m', strtotime($t['tanggal_cuti_akhir']))) != intval($month)) {
-                    $tanggal[$i]['tanggal_cuti_akhir'] = dateLastDayOfMonth($t['tanggal_cuti_mulai']);
-                } else if (intval(date('m', strtotime($t['tanggal_cuti_mulai']))) < intval($month)) {
-                    $tanggal[$i]['tanggal_cuti_mulai'] = date('Y-' . $month . '-01', strtotime($t['tanggal_cuti_mulai']));
+                    $tanggal[$itr]['tanggal_cuti_mulai'] = date($year . '-' . $month . '-01', strtotime($t['tanggal_cuti_mulai']));
                 }
             }
-            $count = $count + daysBetween($tanggal[$i]['tanggal_cuti_akhir'], $tanggal[$i]['tanggal_cuti_mulai']);
-            $count = $count - countWeekday($tanggal[$i]['tanggal_cuti_mulai'], $tanggal[$i]['tanggal_cuti_akhir']);
-            $count = $count - $this->Libur_model->getCountLiburBetween($tanggal[$i]['tanggal_cuti_mulai'], $tanggal[$i]['tanggal_cuti_akhir']);
-            $i++;
+            if (intval(date('m', strtotime($t['tanggal_cuti_akhir']))) != intval($month)) {
+                $tanggal[$itr]['tanggal_cuti_akhir'] = dateLastDayOfMonth($t['tanggal_cuti_mulai']);
+            } else if (intval(date('m', strtotime($t['tanggal_cuti_mulai']))) < intval($month)) {
+                $tanggal[$itr]['tanggal_cuti_mulai'] = date('Y-' . $month . '-01', strtotime($t['tanggal_cuti_mulai']));
+            }
+
+            $count = $count + daysBetween($tanggal[$itr]['tanggal_cuti_akhir'], $tanggal[$itr]['tanggal_cuti_mulai']);
+            $count = $count - countWeekday($tanggal[$itr]['tanggal_cuti_mulai'], $tanggal[$itr]['tanggal_cuti_akhir']);
+            $count = $count - $this->Libur_model->getCountLiburBetween($tanggal[$itr]['tanggal_cuti_mulai'], $tanggal[$itr]['tanggal_cuti_akhir']);
+            $itr++;
         }
 
         return $count;
     }
 
-    public function getCountCutisUnit($unit, $month, $year)
-    {
+    public function getCountCutisUnit($unit, $month, $year) {
         $this->db->select('u.unit_kerja, cp.tanggal_cuti_mulai, cp.tanggal_cuti_akhir');
         $this->db->from('cuti_pegawai as cp, users as u');
         $this->db->where('cp.jenis <> 4');
@@ -149,8 +141,7 @@ class Cuti_model extends CI_Model
         return $count;
     }
 
-    public function getCountCutis($month, $year)
-    {
+    public function getCountCutis($month, $year) {
         $this->db->select('u.unit_kerja, cp.tanggal_cuti_mulai, cp.tanggal_cuti_akhir');
         $this->db->from('cuti_pegawai as cp, users as u');
         $this->db->where('cp.jenis <> 4');
@@ -186,8 +177,7 @@ class Cuti_model extends CI_Model
         return $count;
     }
 
-    public function getDatesCuti($nip)
-    {
+    public function getDatesCuti($nip) {
         $this->db->select('jc.jenis, cp.tanggal_cuti_mulai, cp.tanggal_cuti_akhir');
         $this->db->from('cuti_pegawai as cp, jenis_cuti as jc');
         $this->db->where('cp.jenis <> 4');
@@ -212,8 +202,7 @@ class Cuti_model extends CI_Model
         return $dates;
     }
 
-    public function getDatesDinasLuar($nip)
-    {
+    public function getDatesDinasLuar($nip) {
         $this->db->select('jc.jenis, cp.tanggal_cuti_mulai, cp.tanggal_cuti_akhir');
         $this->db->from('cuti_pegawai as cp, jenis_cuti as jc');
         $this->db->where('cp.jenis = 4');
@@ -238,8 +227,7 @@ class Cuti_model extends CI_Model
         return $dates;
     }
 
-    public function getDinasLuar()
-    {
+    public function getDinasLuar() {
         $this->db->select('u.nip, u.alamat, u.jenis_kelamin, u.nama, k.nama_unit, u.tempat_lahir, u.tanggal_lahir, c.jenis, cp.alasan, cp.persetujuan, cp.tanggal_cuti_mulai, cp.tanggal_cuti_akhir, cp.id_cuti_pegawai');
         $this->db->from('users as u, unit_kerja as k, cuti_pegawai as cp, jenis_cuti as c');
         $this->db->where('u.unit_kerja = k.id_unit_kerja');
@@ -252,8 +240,7 @@ class Cuti_model extends CI_Model
         return $cuti;
     }
 
-    public function getDinasLuarUnit($unit)
-    {
+    public function getDinasLuarUnit($unit) {
         $this->db->select('u.nip, u.alamat, u.jenis_kelamin, u.nama, k.nama_unit, u.tempat_lahir, u.tanggal_lahir, c.jenis, cp.alasan, cp.persetujuan, cp.tanggal_cuti_mulai, cp.tanggal_cuti_akhir, cp.id_cuti_pegawai');
         $this->db->from('users as u, unit_kerja as k, cuti_pegawai as cp, jenis_cuti as c');
         $this->db->where('u.unit_kerja = k.id_unit_kerja');
@@ -267,8 +254,7 @@ class Cuti_model extends CI_Model
         return $cuti;
     }
 
-    public function getDinasLuarIndividu($id)
-    {
+    public function getDinasLuarIndividu($id) {
         $this->db->select('cp.id_cuti_pegawai, u.foto, u.nip, u.alamat, u.jenis_kelamin, u.nama, k.nama_unit, u.tempat_lahir, u.tanggal_lahir, c.jenis, cp.alasan, cp.persetujuan, cp.tanggal_cuti_mulai, cp. tanggal_cuti_akhir, cp.file, cp.type');
         $this->db->from('users as u, unit_kerja as k, cuti_pegawai as cp, jenis_cuti as c');
         $this->db->where('u.unit_kerja = k.id_unit_kerja');
@@ -283,8 +269,7 @@ class Cuti_model extends CI_Model
         return $dinasluar;
     }
 
-    public function getDinasLuarsIndividu($nip)
-    {
+    public function getDinasLuarsIndividu($nip) {
         $this->db->select('cp.id_cuti_pegawai,u.nip, u.alamat, u.jenis_kelamin, u.nama, k.nama_unit, u.tempat_lahir, u.tanggal_lahir, c.jenis, cp.alasan, cp.persetujuan, cp.tanggal_cuti_mulai, cp. tanggal_cuti_akhir, cp.file, cp.type');
         $this->db->from('users as u, unit_kerja as k, cuti_pegawai as cp, jenis_cuti as c');
         $this->db->where('u.unit_kerja = k.id_unit_kerja');
@@ -297,8 +282,7 @@ class Cuti_model extends CI_Model
         return $dinasluar;
     }
 
-    public function getCountDinasLuarIndividu($nip, $month, $year)
-    {
+    public function getCountDinasLuarIndividu($nip, $month, $year) {
         $this->db->select('tanggal_cuti_mulai, tanggal_cuti_akhir');
         $this->db->from('cuti_pegawai');
         $this->db->where('jenis = 4');
@@ -334,8 +318,7 @@ class Cuti_model extends CI_Model
         return $count;
     }
 
-    public function getCountDinasLuarUnit($unit, $month, $year)
-    {
+    public function getCountDinasLuarUnit($unit, $month, $year) {
         $this->db->select('u.unit_kerja, cp.tanggal_cuti_mulai, cp.tanggal_cuti_akhir');
         $this->db->from('cuti_pegawai as cp, users as u');
         $this->db->where('cp.jenis = 4');
@@ -372,8 +355,7 @@ class Cuti_model extends CI_Model
         return $count;
     }
 
-    public function getCountDinasLuars($month, $year)
-    {
+    public function getCountDinasLuars($month, $year) {
         $this->db->select('u.unit_kerja, cp.tanggal_cuti_mulai, cp.tanggal_cuti_akhir');
         $this->db->from('cuti_pegawai as cp, users as u');
         $this->db->where('cp.jenis = 4');

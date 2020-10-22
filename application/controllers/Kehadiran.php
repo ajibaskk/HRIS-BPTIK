@@ -1,11 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Kehadiran extends CI_Controller
-{
+class Kehadiran extends CI_Controller {
 
-        public function daftar_kehadiran()
-        {
+        public function daftar_kehadiran() {
                 if ($this->session->has_userdata('user')) {
                         $this->load->model('Kehadiran_model');
                         $firstUpdate = $this->Kehadiran_model->getDateFirstUpdate();
@@ -18,21 +16,21 @@ class Kehadiran extends CI_Controller
                                                         $result = [];
                                                         while (!feof($file)) {
                                                                 $line = fgets($file);
-                                                                preg_match('/\d{8}/', $line, $id);
+                                                                preg_match('/\d{8}/', $line, $idP);
                                                                 preg_match('/\d{4}-\d{2}-\d{2}/', $line, $tanggal);
                                                                 preg_match('/\d{2}:\d{2}:\d{2}/', $line, $jam);
-                                                                if ($id && $tanggal && $jam) {
-                                                                        $id = $id[0];
+                                                                if ($idP && $tanggal && $jam) {
+                                                                        $idP = $idP[0];
                                                                         $tanggal = $tanggal[0];
                                                                         $jam = $jam[0];
                                                                         if (!(date('l', strtotime($tanggal)) == 'Saturday' || date('l', strtotime($tanggal)) == 'Sunday')) {
                                                                                 if (strtotime($jam) > strtotime('06:00:00') && strtotime($jam) < strtotime('09:00:00')) {
-                                                                                        if (!isset($result[$id][$tanggal]['jam_masuk'])) {
-                                                                                                $result[$id][$tanggal]['jam_masuk'] = $jam;
+                                                                                        if (!isset($result[$idP][$tanggal]['jam_masuk'])) {
+                                                                                                $result[$idP][$tanggal]['jam_masuk'] = $jam;
                                                                                         }
                                                                                 } else if (strtotime($jam) > strtotime('13:00:00') && strtotime($jam) < strtotime('24:00:00')) {
-                                                                                        if (!isset($result[$id][$tanggal]['jam_keluar'])) {
-                                                                                                $result[$id][$tanggal]['jam_keluar'] = $jam;
+                                                                                        if (!isset($result[$idP][$tanggal]['jam_keluar'])) {
+                                                                                                $result[$idP][$tanggal]['jam_keluar'] = $jam;
                                                                                         }
                                                                                 }
                                                                         }
@@ -40,17 +38,17 @@ class Kehadiran extends CI_Controller
                                                         }
                                                         fclose($file);
 
-                                                        $i = 0;
+                                                        $itr = 0;
                                                         foreach ($result as $nip => $tanggal) {
                                                                 foreach ($tanggal as $tgl => $jam) {
                                                                         if (count($jam) == 2) {
-                                                                                $data[$i] = [
+                                                                                $data[$itr] = [
                                                                                         'nip' => $nip,
                                                                                         'tanggal' => $tgl,
                                                                                         'jam_masuk' => $jam['jam_masuk'],
                                                                                         'jam_keluar' => $jam['jam_keluar']
                                                                                 ];
-                                                                                $i++;
+                                                                                $itr++;
                                                                         }
                                                                 }
                                                         }
@@ -63,9 +61,8 @@ class Kehadiran extends CI_Controller
 
                                                         if (!strlen($this->db->error()['message'])) {
                                                                 $this->session->set_flashdata('reload-message', 'Data kehadiran telah diupdate silakan klik tombol reload');
-                                                        } else {
-                                                                $this->session->set_flashdata('error-message', 'Gagal update (code: ' . $this->db->error()['code'] . '), ' . $this->db->error()['message']);
                                                         }
+                                                        $this->session->set_flashdata('error-message', 'Gagal update (code: ' . $this->db->error()['code'] . '), ' . $this->db->error()['message']);
                                                 }
                                         } else {
                                                 $this->session->set_flashdata('error-message', 'Mohon pilih file kehadiran dengan format .txt!');
@@ -133,8 +130,7 @@ class Kehadiran extends CI_Controller
                 }
         }
 
-        public function struktur_unit()
-        {
+        public function struktur_unit() {
                 if ($this->session->has_userdata('user')) {
                         $include['css'] = [
                                 base_url('plugins/datatables-bs4/css/dataTables.bootstrap4.css'),
@@ -166,8 +162,7 @@ class Kehadiran extends CI_Controller
                 }
         }
 
-        public function cek_kehadiran()
-        {
+        public function cek_kehadiran() {
                 if ($this->session->has_userdata('user')) {
                         $include['css'] = [
                                 base_url('plugins/fullcalendar/main.min.css'),
@@ -202,8 +197,7 @@ class Kehadiran extends CI_Controller
                 }
         }
 
-        public function analisis_kehadiran()
-        {
+        public function analisis_kehadiran() {
                 if ($this->session->has_userdata('user')) {
                         $include['js_header'] = [base_url('plugins/chart.js/Chart.min.js')];
                         $include['js'] = [base_url('assets/js/kehadiran/pegawai/analisis_kehadiran.js')];

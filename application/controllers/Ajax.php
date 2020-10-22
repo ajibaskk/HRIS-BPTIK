@@ -1,12 +1,10 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Ajax extends CI_Controller
-{
+class Ajax extends CI_Controller {
 
 
-    public function getUser($nip)
-    {
+    public function getUser($nip) {
         if ($this->session->has_userdata('user')) {
             $this->load->model('User_model');
             $user = $this->User_model->getUser($nip);
@@ -14,35 +12,31 @@ class Ajax extends CI_Controller
         }
     }
 
-    public function getLibur($id)
-    {
+    public function getLibur($idLibur) {
         if ($this->session->has_userdata('user')) {
             $this->load->model('Libur_model');
-            $libur = $this->Libur_model->getLibur($id);
+            $libur = $this->Libur_model->getLibur($idLibur);
             echo json_encode($libur);
         }
     }
 
-    public function getCuti($id)
-    {
+    public function getCuti($idPegawai) {
         if ($this->session->has_userdata('user')) {
             $this->load->model('Cuti_model');
-            $cuti = $this->Cuti_model->getCuti($id);
+            $cuti = $this->Cuti_model->getCuti($idPegawai);
             echo json_encode($cuti);
         }
     }
 
-    public function getCuti2($id)
-    {
+    public function getCuti2($idPegawai) {
         if ($this->session->has_userdata('user')) {
             $this->load->model('Cuti_model');
-            $dl = $this->Cuti_model->getDinasLuarIndividu($id);
+            $dl = $this->Cuti_model->getDinasLuarIndividu($idPegawai);
             echo json_encode($dl);
         }
     }
 
-    public function getAnalisisKehadiran($nip, $month, $year)
-    {
+    public function getAnalisisKehadiran($nip, $month, $year) {
         if ($this->session->has_userdata('user')) {
 
             $this->load->model('Cuti_model');
@@ -68,8 +62,7 @@ class Ajax extends CI_Controller
         }
     }
 
-    public function getAnalisisKeterlambatan($nip, $month, $year)
-    {
+    public function getAnalisisKeterlambatan($nip, $month, $year) {
         if ($this->session->has_userdata('user')) {
 
             $this->load->model('User_model');
@@ -86,8 +79,7 @@ class Ajax extends CI_Controller
         }
     }
 
-    public function getAnalisisAbsen($nip, $month, $year)
-    {
+    public function getAnalisisAbsen($nip, $month, $year) {
         if ($this->session->has_userdata('user')) {
 
             $this->load->model('User_model');
@@ -117,8 +109,7 @@ class Ajax extends CI_Controller
         }
     }
 
-    public function getAnalisisKehadiranUnit($unit, $month = 0, $year = 0)
-    {
+    public function getAnalisisKehadiranUnit($unit, $month = 0, $year = 0) {
         if ($this->session->has_userdata('user')) {
             $this->load->model('Cuti_model');
             $this->load->model('User_model');
@@ -140,21 +131,20 @@ class Ajax extends CI_Controller
                 $tidakHadir = $this->Kehadiran_model->getCountNotPresents($month, $year) - $cuti - $dinasLuar;
                 $late = $this->Kehadiran_model->getCountLates($month, $year);
                 $ontime = $this->Kehadiran_model->getCountPresents($month, $year) - $late;
-            } else {
-                if ($unit == 1) {
-                    $namaUnit = "Tata Usaha";
-                } else if ($unit == 2) {
-                    $namaUnit = "Pengembangan TIK";
-                } else if ($unit == 3) {
-                    $namaUnit = "Pemberdayaan TIK";
-                }
-                $jumlahPegawai = $this->User_model->getCountPegawaisUnit($unit);
-                $cuti = $this->Cuti_model->getCountCutisUnit($unit, $month, $year);
-                $dinasLuar = $this->Cuti_model->getCountDinasLuarUnit($unit, $month, $year);
-                $tidakHadir = $this->Kehadiran_model->getCountNotPresentUnit($unit, $month, $year) - $cuti - $dinasLuar;
-                $late = $this->Kehadiran_model->getCountLateUnit($unit, $month, $year);
-                $ontime = $this->Kehadiran_model->getCountPresentUnit($unit, $month, $year) - $late;
             }
+            if ($unit == 1) {
+                $namaUnit = "Tata Usaha";
+            } else if ($unit == 2) {
+                $namaUnit = "Pengembangan TIK";
+            } else if ($unit == 3) {
+                $namaUnit = "Pemberdayaan TIK";
+            }
+            $jumlahPegawai = $this->User_model->getCountPegawaisUnit($unit);
+            $cuti = $this->Cuti_model->getCountCutisUnit($unit, $month, $year);
+            $dinasLuar = $this->Cuti_model->getCountDinasLuarUnit($unit, $month, $year);
+            $tidakHadir = $this->Kehadiran_model->getCountNotPresentUnit($unit, $month, $year) - $cuti - $dinasLuar;
+            $late = $this->Kehadiran_model->getCountLateUnit($unit, $month, $year);
+            $ontime = $this->Kehadiran_model->getCountPresentUnit($unit, $month, $year) - $late;
 
             $result = [
                 'list_year' => $listYear,
@@ -172,44 +162,37 @@ class Ajax extends CI_Controller
         }
     }
 
-    public function getTabelAnalisisKehadiranUnit($type, $unit, $month, $year)
-    {
+    public function getTabelAnalisisKehadiranUnit($type, $unit, $month, $year) {
         if ($this->session->has_userdata('user')) {
             $this->load->model('Cuti_model');
             $this->load->model('User_model');
             $this->load->model('Kehadiran_model');
 
-            $i = 0;
+            $itr = 0;
             $data = [];
 
             if ($unit == 'all') {
                 $namaUnit = "Seluruh Pegawai Non PNS BPTIK";
                 $pegawais = $this->User_model->getPegawais();
                 foreach ($pegawais as $pegawai) {
-                    if($type == 'Cuti'){
+                    if ($type == 'Cuti') {
                         $total = $this->Cuti_model->getCountCutisIndividu($pegawai['nip'], $month, $year);
-                    }
-                    else if($type == 'Dinas%20Luar'){
+                    } else if ($type == 'Dinas%20Luar') {
                         $total = $this->Cuti_model->getCountDinasLuar($pegawai['nip'], $month, $year);
-                    }
-                    else if($type == 'Tidak%20Masuk'){
+                    } else if ($type == 'Tidak%20Masuk') {
                         $total = $this->Kehadiran_model->getCountNotPresent($pegawai['nip'], $month, $year) - $this->Cuti_model->getCountCutisIndividu($pegawai['nip'], $month, $year) - $this->Cuti_model->getCountDinasLuarIndividu($pegawai['nip'], $month, $year);
-                    }
-                    else if($type == 'Terlambat'){
+                    } else if ($type == 'Terlambat') {
                         $total = $this->Kehadiran_model->getCountLate($pegawai['nip'], $month, $year);
-                    }
-                    else if($type == 'Tepat%20Waktu'){
+                    } else if ($type == 'Tepat%20Waktu') {
                         $total = $this->Kehadiran_model->getCountPresent($pegawai['nip'], $month, $year) - $this->Kehadiran_model->getCountLate($pegawai['nip'], $month, $year);
                     }
-                    if($total == 0){
+                    if ($total == 0) {
                         continue;
                     }
-                    else{
-                        $data[$i]['id'] = $pegawai['nip'];
-                        $data[$i]['nama'] = $pegawai['nama'];
-                        $data[$i]['total'] = $total;
-                        $i++;
-                    }
+                    $data[$itr]['id'] = $pegawai['nip'];
+                    $data[$itr]['nama'] = $pegawai['nama'];
+                    $data[$itr]['total'] = $total;
+                    $itr++;
                 }
             } else {
                 if ($unit == 1) {
@@ -221,29 +204,24 @@ class Ajax extends CI_Controller
                 }
                 $pegawais = $this->User_model->getPegawaisUnit($unit);
                 foreach ($pegawais as $pegawai) {
-                    if($type == 'Cuti'){
+                    if ($type == 'Cuti') {
                         $total = $this->Cuti_model->getCountCutisIndividu($pegawai['nip'], $month, $year);
-                    }
-                    else if($type == 'Dinas%20Luar'){
-                        $total = $this->Cuti_model->getCountDinasLuarIndividu   ($pegawai['nip'], $month, $year);
-                    }
-                    else if($type == 'Tidak%20Masuk'){
+                    } else if ($type == 'Dinas%20Luar') {
+                        $total = $this->Cuti_model->getCountDinasLuarIndividu($pegawai['nip'], $month, $year);
+                    } else if ($type == 'Tidak%20Masuk') {
                         $total = $this->Kehadiran_model->getCountNotPresent($pegawai['nip'], $month, $year) - $this->Cuti_model->getCountCutisIndividu($pegawai['nip'], $month, $year) - $this->Cuti_model->getCountDinasLuarIndividu($pegawai['nip'], $month, $year);
-                    }
-                    else if($type == 'Terlambat'){
+                    } else if ($type == 'Terlambat') {
                         $total = $this->Kehadiran_model->getCountLate($pegawai['nip'], $month, $year);
-                    }
-                    else if($type == 'Tepat%20Waktu'){
+                    } else if ($type == 'Tepat%20Waktu') {
                         $total = $this->Kehadiran_model->getCountPresent($pegawai['nip'], $month, $year) - $this->Kehadiran_model->getCountLate($pegawai['nip'], $month, $year);
                     }
-                    if($total == 0){
+                    if ($total == 0) {
                         continue;
-                    }
-                    else{
-                        $data[$i]['id'] = $pegawai['nip'];
-                        $data[$i]['nama'] = $pegawai['nama'];
-                        $data[$i]['total'] = $total;
-                        $i++;
+                    } else {
+                        $data[$itr]['id'] = $pegawai['nip'];
+                        $data[$itr]['nama'] = $pegawai['nama'];
+                        $data[$itr]['total'] = $total;
+                        $itr++;
                     }
                 }
             }
@@ -257,8 +235,7 @@ class Ajax extends CI_Controller
         }
     }
 
-    public function getDatesKehadiran($nip)
-    {
+    public function getDatesKehadiran($nip) {
         if ($this->session->has_userdata('user')) {
             $this->load->model('Kehadiran_model');
             $this->load->model('Cuti_model');

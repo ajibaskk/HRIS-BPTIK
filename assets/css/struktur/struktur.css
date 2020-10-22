@@ -4,14 +4,14 @@
 }
 
 @media only screen and (max-width: 425px) {
-	.callout a {
+	.strukturorganisasi {
 		transform: scale(0.8);
 		margin: -50px;
 	}
 }
 
 @media only screen and (max-width: 375px) {
-	.callout a {
+	.strukturorganisasi {
 		transform: scale(0.6);
 		margin: -100px;
 	}

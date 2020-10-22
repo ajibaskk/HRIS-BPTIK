@@ -1,39 +1,32 @@
 <?php
-class Libur_model extends CI_Model
-{
+class Libur_model extends CI_Model {
 
-    public function getLibur($id)
-    {
+    public function getLibur($idLibur) {
         $this->db->select('id, nama_hari_libur, tanggal');
         $this->db->from('hari_libur');
-        $this->db->where('id', $id);
+        $this->db->where('id', $idLibur);
         $libur = $this->db->get()->row_array();
 
-        if($libur){
+        if ($libur) {
             return $libur;
         }
-        else{
-            return [];
-        }
+        return [];
     }
 
-    public function getLiburs()
-    {
+    public function getLiburs() {
         $this->db->select('id, nama_hari_libur, tanggal');
         $this->db->from('hari_libur');
         $data = $this->db->get()->result_array();
 
-        
-        if($data){
+
+        if ($data) {
             return $data;
-        }
-        else{
+        } else {
             return [];
         }
     }
 
-    public function getCountLiburBetween($start, $end)
-    {
+    public function getCountLiburBetween($start, $end) {
         $this->db->select('*');
         $this->db->where('tanggal >=', $start);
         $this->db->where('tanggal <=', $end);
@@ -45,18 +38,15 @@ class Libur_model extends CI_Model
         }
     }
 
-    public function getDatesLiburs()
-    {
+    public function getDatesLiburs() {
         $this->db->select('nama_hari_libur, tanggal');
         $this->db->from('hari_libur');
         $data = $this->db->get()->result_array();
 
-        
-        if($data){
+
+        if ($data) {
             return $data;
         }
-        else{
-            return [];
-        }
+        return [];
     }
 }

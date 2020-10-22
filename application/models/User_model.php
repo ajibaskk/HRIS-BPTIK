@@ -1,9 +1,7 @@
 <?php
-class User_model extends CI_Model
-{
+class User_model extends CI_Model {
 
-    public function getUserSidebar($nip)
-    {
+    public function getUserSidebar($nip) {
         $this->db->select('foto, nama, nip');
         $this->db->from('users');
         $this->db->where('nip', $nip);
@@ -13,8 +11,7 @@ class User_model extends CI_Model
         return $user;
     }
 
-    public function getUser($nip)
-    {
+    public function getUser($nip) {
         $this->db->select('u.nip, u.alamat, u.jenis_kelamin, u.nama, u.unit_kerja, k.nama_unit, u.tempat_lahir, u.tanggal_lahir, u.foto, u.level, u.jenjang');
         $this->db->from('users as u, unit_kerja as k');
         $this->db->where('u.unit_kerja = k.id_unit_kerja');
@@ -25,8 +22,7 @@ class User_model extends CI_Model
         return $user;
     }
 
-    public function getUsers()
-    {
+    public function getUsers() {
         $this->db->select('u.nip, u.alamat, u.jenis_kelamin, u.nama, k.nama_unit, u.tempat_lahir, u.tanggal_lahir, u.foto, u.level, u.jenjang');
         $this->db->from('users as u, unit_kerja as k');
         $this->db->where('u.unit_kerja = k.id_unit_kerja');
@@ -39,8 +35,7 @@ class User_model extends CI_Model
         return $data;
     }
 
-    public function getPegawais()
-    {
+    public function getPegawais() {
         $this->db->select('u.nip, u.alamat, u.jenis_kelamin, u.nama, k.nama_unit, u.tempat_lahir, u.tanggal_lahir, u.foto, u.level, u.jenjang');
         $this->db->from('users as u, unit_kerja as k');
         $this->db->where('u.unit_kerja = k.id_unit_kerja');
@@ -50,8 +45,7 @@ class User_model extends CI_Model
         return $data;
     }
 
-    public function getPegawaisUnit($unit)
-    {
+    public function getPegawaisUnit($unit) {
         $this->db->select('u.nip, u.alamat, u.jenis_kelamin, u.nama, k.nama_unit, u.tempat_lahir, u.tanggal_lahir, u.foto, u.level, u.jenjang');
         $this->db->from('users as u, unit_kerja as k');
         $this->db->where('u.unit_kerja = k.id_unit_kerja');
@@ -62,24 +56,21 @@ class User_model extends CI_Model
         return $data;
     }
 
-    public function getPimpinan($unit)
-    {
+    public function getPimpinan($unit) {
         $this->db->select('nama, nip, foto');
         $this->db->where('unit_kerja', $unit);
         $this->db->where('level', 1);
         if ($data = $this->db->get('users')->row_array()) {
             $data['foto'] = base64_encode($data['foto']);
             return $data;
-        } else {
-            $data['nama'] = '-';
-            $data['nip'] = '-';
-            $data['foto'] = '';
-            return $data;
         }
+        $data['nama'] = '-';
+        $data['nip'] = '-';
+        $data['foto'] = '';
+        return $data;
     }
 
-    public function getCountPegawais()
-    {
+    public function getCountPegawais() {
         $this->db->select('nip');
         $this->db->where('level', 2);
 
@@ -90,8 +81,7 @@ class User_model extends CI_Model
         }
     }
 
-    public function getCountPegawaisUnit($unit)
-    {
+    public function getCountPegawaisUnit($unit) {
         $this->db->select('nip');
         $this->db->where('level', 2);
         $this->db->where('unit_kerja', $unit);

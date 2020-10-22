@@ -1,11 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Profile extends CI_Controller
-{
+class Profile extends CI_Controller {
 
-        public function index()
-        {
+        public function index() {
                 if ($this->session->has_userdata('user')) {
                         if ($this->input->post('submit-photo')) {
                                 if ($_FILES['photo']['size'] != 0) {
@@ -18,9 +16,8 @@ class Profile extends CI_Controller
                                                         if ($this->db->update('users', $data)) {
                                                                 $this->session->set_flashdata('message', 'Anda telah mengganti foto profil');
                                                                 $this->session->set_flashdata('message-photo', '');
-                                                        } else {
-                                                                $this->session->set_flashdata('error-message', 'Error saat mengganti foto profil');
                                                         }
+                                                        $this->session->set_flashdata('error-message', 'Error saat mengganti foto profil');
                                                 } else {
                                                         $this->session->set_flashdata('message-photo', 'Mohon pilih file foto!');
                                                 }

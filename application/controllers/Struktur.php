@@ -1,16 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Struktur extends CI_Controller
-{
-        public function index()
-        {
+class Struktur extends CI_Controller {
+        public function index() {
                 if ($this->session->has_userdata('user')) {
                         $include['css'] = [
                                 base_url('assets/css/struktur/struktur.css'),
                         ];
-                        $include['js'] = [
-                        ];
+                        $include['js'] = [];
                         $include['title'] = 'Struktur Organisasi | HRIS | BPTIK Jawa Tengah';
                         $include['struktur'] = 'active';
 
@@ -24,8 +21,7 @@ class Struktur extends CI_Controller
                         $this->load->view('templates/' . $this->session->userdata('user')['level'] . '/header', $include);
                         $this->load->view('struktur/struktur_organisasi', $include);
                         $this->load->view('templates/footer', $include);
-                } else {
-                        redirect(base_url('authentication/login'));
                 }
+                redirect(base_url('authentication/login'));
         }
 }

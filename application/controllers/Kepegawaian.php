@@ -1,11 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Kepegawaian extends CI_Controller
-{
+class Kepegawaian extends CI_Controller {
 
-        public function daftar_pegawai()
-        {
+        public function daftar_pegawai() {
                 if ($this->session->has_userdata('user')) {
                         $include['css'] = [base_url('plugins/datatables-bs4/css/dataTables.bootstrap4.css')];
                         $include['js_header'] = [
@@ -21,31 +19,29 @@ class Kepegawaian extends CI_Controller
 
                         $this->load->model('User_model');
                         $include["data_table"] = $this->User_model->getPegawais();
-                        $i = 0;
+                        $itr = 0;
                         foreach ($include["data_table"] as $data) {
                                 if ($data['jenis_kelamin'] == 0) {
-                                        $include["data_table"][$i]['jenis_kelamin'] = 'Laki-laki';
-                                } else {
-                                        $include["data_table"][$i]['jenis_kelamin'] = 'Perempuan';
+                                        $include["data_table"][$itr]['jenis_kelamin'] = 'Laki-laki';
                                 }
-
-                                $i++;
+                                $include["data_table"][$itr]['jenis_kelamin'] = 'Perempuan';
+                                $itr++;
                         }
-                        $j = 0;
+                        $jtr = 0;
                         foreach ($include["data_table"] as $data) {
                                 if ($data['jenjang'] == 0) {
-                                        $include["data_table"][$j]['jenjang'] = 'SMA/SMK';
+                                        $include["data_table"][$jtr]['jenjang'] = 'SMA/SMK';
                                 } else if ($data['jenjang'] == 1) {
-                                        $include["data_table"][$j]['jenjang'] = 'D3';
+                                        $include["data_table"][$jtr]['jenjang'] = 'D3';
                                 } else if ($data['jenjang'] == 2) {
-                                        $include["data_table"][$j]['jenjang'] = 'S1';
+                                        $include["data_table"][$jtr]['jenjang'] = 'S1';
                                 } else if ($data['jenjang'] == 3) {
-                                        $include["data_table"][$j]['jenjang'] = 'S2';
-                                } else if ($data['jenjang'] == 4) {
-                                        $include["data_table"][$j]['jenjang'] = 'S3';
+                                        $include["data_table"][$jtr]['jenjang'] = 'S2';
+                                } else {
+                                        $include["data_table"][$jtr]['jenjang'] = 'S3';
                                 }
 
-                                $j++;
+                                $jtr++;
                         }
 
                         $this->load->view('templates/' . $this->session->userdata('user')['level'] . '/header', $include);
@@ -56,8 +52,7 @@ class Kepegawaian extends CI_Controller
                 }
         }
 
-        public function menu_cuti_pegawai()
-        {
+        public function menu_cuti_pegawai() {
                 if ($this->session->has_userdata('user')) {
                         // $include['css'] = [base_url('assets/css/beranda/index.css')];
                         // $include['js'] = [base_url('assets/js/beranda/index.js')];
@@ -72,8 +67,7 @@ class Kepegawaian extends CI_Controller
                 }
         }
 
-        public function acc_cuti_pegawai()
-        {
+        public function acc_cuti_pegawai() {
                 if ($this->session->has_userdata('user')) {
                         if ($this->input->post('tolak-cuti')) {
                                 $this->db->where('id_cuti_pegawai', $this->input->post('tolak-cuti'));
@@ -95,7 +89,7 @@ class Kepegawaian extends CI_Controller
                                 } else {
                                         $this->session->set_flashdata('error-message', 'Error dalam menyetujui permohonan cuti');
                                 }
-                        } else if ($this->input->post('batal-cuti')) {
+                        } else {
                                 $this->db->where('id_cuti_pegawai', $this->input->post('batal-cuti'));
                                 $data = [
                                         'persetujuan' => 0
@@ -152,8 +146,7 @@ class Kepegawaian extends CI_Controller
         }
 
 
-        public function cuti_pegawai($jenis)
-        {
+        public function cuti_pegawai($jenis) {
                 if ($this->session->has_userdata('user')) {
                         if ($jenis == 'sakit') {
                                 if ($this->input->post('submit-cuti')) {
@@ -189,7 +182,7 @@ class Kepegawaian extends CI_Controller
                                                                         } else {
                                                                                 $this->session->set_flashdata('error-message', 'Error dalam pengajuan cuti');
                                                                         }
-                                                                } else if ($_FILES['file-cuti']['type'] == 'image/jpeg' || $_FILES['file-cuti']['type'] == 'image/png'){
+                                                                } else if ($_FILES['file-cuti']['type'] == 'image/jpeg' || $_FILES['file-cuti']['type'] == 'image/png') {
                                                                         $data = [
                                                                                 'nip' => htmlspecialchars($this->session->userdata('user')['nip']),
                                                                                 'alasan' => htmlspecialchars($this->input->post('alasan', true)),
@@ -277,7 +270,7 @@ class Kepegawaian extends CI_Controller
                                                                         } else {
                                                                                 $this->session->set_flashdata('error-message', 'Error dalam pengajuan cuti');
                                                                         }
-                                                                } else if ($_FILES['file-cuti']['type'] == 'image/jpeg' || $_FILES['file-cuti']['type'] == 'image/png'){
+                                                                } else if ($_FILES['file-cuti']['type'] == 'image/jpeg' || $_FILES['file-cuti']['type'] == 'image/png') {
                                                                         $data = [
                                                                                 'nip' => htmlspecialchars($this->session->userdata('user')['nip']),
                                                                                 'alasan' => htmlspecialchars($this->input->post('alasan', true)),
@@ -365,7 +358,7 @@ class Kepegawaian extends CI_Controller
                                                                         } else {
                                                                                 $this->session->set_flashdata('error-message', 'Error dalam pengajuan cuti');
                                                                         }
-                                                                } else if ($_FILES['file-cuti']['type'] == 'image/jpeg' || $_FILES['file-cuti']['type'] == 'image/png'){
+                                                                } else if ($_FILES['file-cuti']['type'] == 'image/jpeg' || $_FILES['file-cuti']['type'] == 'image/png') {
                                                                         $data = [
                                                                                 'nip' => htmlspecialchars($this->session->userdata('user')['nip']),
                                                                                 'alasan' => htmlspecialchars($this->input->post('alasan', true)),
@@ -428,8 +421,7 @@ class Kepegawaian extends CI_Controller
                 }
         }
 
-        public function riwayat_cuti_pegawai()
-        {
+        public function riwayat_cuti_pegawai() {
                 if ($this->session->has_userdata('user')) {
 
                         if ($this->input->post('hapus-cuti')) {
@@ -461,12 +453,11 @@ class Kepegawaian extends CI_Controller
                 }
         }
 
-        public function riwayat_dinas_luar()
-        {
+        public function riwayat_dinas_luar() {
                 if ($this->session->has_userdata('user')) {
                         if ($this->input->post('hapus-cuti')) {
-                                $id =  $this->input->post('hapus-cuti');
-                                if ($this->db->delete('cuti_pegawai', ['id_cuti_pegawai' => $id])) {
+                                $idCuti =  $this->input->post('hapus-cuti');
+                                if ($this->db->delete('cuti_pegawai', ['id_cuti_pegawai' => $idCuti])) {
                                         $this->session->set_flashdata('message', 'Dinas Luar telah dihapus!');
                                 } else {
                                         $this->session->set_flashdata('error-message', 'Error dalam penghapusan riwayat cuti');
@@ -553,8 +544,7 @@ class Kepegawaian extends CI_Controller
                 }
         }
 
-        public function tanggal_check()
-        {
+        public function tanggal_check() {
                 $tanggalawal = strtotime($_POST['tanggal-awal']);
                 $tanggalakhir = strtotime($_POST['tanggal-akhir']);
 
@@ -565,8 +555,7 @@ class Kepegawaian extends CI_Controller
                         return FALSE;
                 }
         }
-        public function tanggal_check_cuti()
-        {
+        public function tanggal_check_cuti() {
                 $tanggalawal = strtotime($_POST['awal-cuti']);
                 $tanggalakhir = strtotime($_POST['akhir-cuti']);
 
@@ -578,8 +567,7 @@ class Kepegawaian extends CI_Controller
                 }
         }
 
-        public function form_dinas_luar()
-        {
+        public function form_dinas_luar() {
                 if ($this->input->post('submit-cuti')) {
                         $this->load->library('form_validation');
                         $validasitanggal = array(
@@ -594,44 +582,44 @@ class Kepegawaian extends CI_Controller
                                 if ($_FILES['file-cuti']['size'] != 0) {
                                         if ($_FILES['file-cuti']['size'] <= 5 * 1024 * 1024 &&  $_FILES['file-cuti']['size'] > 0) {
                                                 if ($_FILES['file-cuti']['type'] == 'application/pdf') {
-                                                                        $data = [
-                                                                                'nip' => htmlspecialchars($this->session->userdata('user')['nip']),
-                                                                                'alasan' => htmlspecialchars($this->input->post('alasan', true)),
-                                                                                'tanggal_cuti_mulai' => htmlspecialchars($this->input->post('awal-cuti', true)),
-                                                                                'tanggal_cuti_akhir' => htmlspecialchars($this->input->post('akhir-cuti', true)),
-                                                                                'jenis' => 4,
-                                                                                'persetujuan' => 0,
-                                                                                'type' => 0,
-                                                                                'file' => file_get_contents($_FILES['file-cuti']['tmp_name'])
-                                                                        ];
-                                                                        // var_dump($_FILES);
+                                                        $data = [
+                                                                'nip' => htmlspecialchars($this->session->userdata('user')['nip']),
+                                                                'alasan' => htmlspecialchars($this->input->post('alasan', true)),
+                                                                'tanggal_cuti_mulai' => htmlspecialchars($this->input->post('awal-cuti', true)),
+                                                                'tanggal_cuti_akhir' => htmlspecialchars($this->input->post('akhir-cuti', true)),
+                                                                'jenis' => 4,
+                                                                'persetujuan' => 0,
+                                                                'type' => 0,
+                                                                'file' => file_get_contents($_FILES['file-cuti']['tmp_name'])
+                                                        ];
+                                                        // var_dump($_FILES);
 
-                                                                        $this->db->where('nip', $this->session->userdata('user')['nip']);
-                                                                        if ($this->db->insert('cuti_pegawai', $data)) {
-                                                                                $this->session->set_flashdata('message', 'Pengajuan cuti anda berhasil, silahkan cek riwayat cuti anda!');
-                                                                        } else {
-                                                                                $this->session->set_flashdata('error-message', 'Error dalam pengajuan cuti');
-                                                                        }
-                                                                } else if ($_FILES['file-cuti']['type'] == 'image/jpeg' || $_FILES['file-cuti']['type'] == 'image/png'){
-                                                                        $data = [
-                                                                                'nip' => htmlspecialchars($this->session->userdata('user')['nip']),
-                                                                                'alasan' => htmlspecialchars($this->input->post('alasan', true)),
-                                                                                'tanggal_cuti_mulai' => htmlspecialchars($this->input->post('awal-cuti', true)),
-                                                                                'tanggal_cuti_akhir' => htmlspecialchars($this->input->post('akhir-cuti', true)),
-                                                                                'jenis' => 4,
-                                                                                'persetujuan' => 0,
-                                                                                'type' => 1,
-                                                                                'file' => file_get_contents($_FILES['file-cuti']['tmp_name'])
-                                                                        ];
-                                                                        // var_dump($_FILES);
+                                                        $this->db->where('nip', $this->session->userdata('user')['nip']);
+                                                        if ($this->db->insert('cuti_pegawai', $data)) {
+                                                                $this->session->set_flashdata('message', 'Pengajuan cuti anda berhasil, silahkan cek riwayat cuti anda!');
+                                                        } else {
+                                                                $this->session->set_flashdata('error-message', 'Error dalam pengajuan cuti');
+                                                        }
+                                                } else if ($_FILES['file-cuti']['type'] == 'image/jpeg' || $_FILES['file-cuti']['type'] == 'image/png') {
+                                                        $data = [
+                                                                'nip' => htmlspecialchars($this->session->userdata('user')['nip']),
+                                                                'alasan' => htmlspecialchars($this->input->post('alasan', true)),
+                                                                'tanggal_cuti_mulai' => htmlspecialchars($this->input->post('awal-cuti', true)),
+                                                                'tanggal_cuti_akhir' => htmlspecialchars($this->input->post('akhir-cuti', true)),
+                                                                'jenis' => 4,
+                                                                'persetujuan' => 0,
+                                                                'type' => 1,
+                                                                'file' => file_get_contents($_FILES['file-cuti']['tmp_name'])
+                                                        ];
+                                                        // var_dump($_FILES);
 
-                                                                        $this->db->where('nip', $this->session->userdata('user')['nip']);
-                                                                        if ($this->db->insert('cuti_pegawai', $data)) {
-                                                                                $this->session->set_flashdata('message', 'Pengajuan cuti anda berhasil, silahkan cek riwayat cuti anda!');
-                                                                        } else {
-                                                                                $this->session->set_flashdata('error-message', 'Error dalam pengajuan cuti');
-                                                                        }
-                                                                } else {
+                                                        $this->db->where('nip', $this->session->userdata('user')['nip']);
+                                                        if ($this->db->insert('cuti_pegawai', $data)) {
+                                                                $this->session->set_flashdata('message', 'Pengajuan cuti anda berhasil, silahkan cek riwayat cuti anda!');
+                                                        } else {
+                                                                $this->session->set_flashdata('error-message', 'Error dalam pengajuan cuti');
+                                                        }
+                                                } else {
                                                         $this->session->set_flashdata('error-message', 'Mohon pilih file foto!');
                                                 }
                                         } else {

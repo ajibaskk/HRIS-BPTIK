@@ -1,10 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Manajemen extends CI_Controller
-{
-        public function manajemen_akun()
-        {
+class Manajemen extends CI_Controller {
+        public function manajemen_akun() {
                 if ($this->session->has_userdata('user')) {
                         if ($this->session->userdata('user')['level'] == 'admin') {
 
@@ -37,9 +35,9 @@ class Manajemen extends CI_Controller
                                                 if ($data['level'] == 1 && $this->db->get_where('users', 'level = ' . $data['level'] . ' AND unit_kerja = ' . $data['unit_kerja'])->num_rows() > 0) {
                                                         $this->session->set_flashdata('error-message', 'Akun pimpinan unit telah ada!');
                                                         $check = false;
-                                                } else {
-                                                        $check = true;
                                                 }
+                                                $check = true;
+
                                                 if ($check) {
                                                         if ($this->db->insert('users', $data) && !strlen($this->db->error()['message'])) {
                                                                 $this->session->set_flashdata('message', 'Akun ' . $data['nama'] . ' (NIP.' . $data['nip'] . ') telah ditambahkan!');
@@ -130,23 +128,23 @@ class Manajemen extends CI_Controller
 
                                 $this->load->model('User_model');
                                 $include["data_table"] = $this->User_model->getUsers();
-                                $i = 0;
+                                $itr = 0;
                                 foreach ($include["data_table"] as $data) {
-                                        $include["data_table"][$i]['no'] = $i + 1;
+                                        $include["data_table"][$itr]['no'] = $itr + 1;
                                         if ($data['jenis_kelamin'] == 0) {
-                                                $include["data_table"][$i]['jenis_kelamin'] = 'Laki-laki';
+                                                $include["data_table"][$itr]['jenis_kelamin'] = 'Laki-laki';
                                         } else {
-                                                $include["data_table"][$i]['jenis_kelamin'] = 'Perempuan';
+                                                $include["data_table"][$itr]['jenis_kelamin'] = 'Perempuan';
                                         }
 
                                         if ($data['level'] == 0) {
-                                                $include["data_table"][$i]['level'] = 'Admin';
+                                                $include["data_table"][$itr]['level'] = 'Admin';
                                         } else if ($data['level'] == 1) {
-                                                $include["data_table"][$i]['level'] = 'Pimpinan';
+                                                $include["data_table"][$itr]['level'] = 'Pimpinan';
                                         } else {
-                                                $include["data_table"][$i]['level'] = 'Pegawai';
+                                                $include["data_table"][$itr]['level'] = 'Pegawai';
                                         }
-                                        $i++;
+                                        $itr++;
                                 }
 
                                 $this->load->model('Unit_kerja_model');
@@ -163,8 +161,7 @@ class Manajemen extends CI_Controller
                 }
         }
 
-        public function manajemen_hari_libur()
-        {
+        public function manajemen_hari_libur() {
                 if ($this->session->has_userdata('user')) {
                         if ($this->session->userdata('user')['level'] == 'admin') {
 
@@ -210,9 +207,9 @@ class Manajemen extends CI_Controller
                                                 $this->session->set_flashdata('error-message', '<ul>' . $error . '</ul>');
                                         }
                                 } else if ($this->input->post('hapus-hari-libur')) {
-                                        $id =  $this->input->post('hapus-hari-libur');
-                                        $libur = $this->db->get_where('hari_libur', ['id' => $id])->row_array();
-                                        if ($this->db->delete('hari_libur', ['id' => $id])) {
+                                        $idLibur =  $this->input->post('hapus-hari-libur');
+                                        $libur = $this->db->get_where('hari_libur', ['id' => $idLibur])->row_array();
+                                        if ($this->db->delete('hari_libur', ['id' => $idLibur])) {
                                                 $this->session->set_flashdata('message', 'Hari Libur ' . $libur['nama_hari_libur'] . ' (' . date("d/m/Y", strtotime($libur['tanggal'])) . ') telah dihapus!');
                                         } else {
                                                 $this->session->set_flashdata('error-message', 'Error dalam penghapusan hari libur');

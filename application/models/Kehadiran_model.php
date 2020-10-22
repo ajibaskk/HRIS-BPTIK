@@ -1,22 +1,18 @@
 <?php
-class Kehadiran_model extends CI_Model
-{
+class Kehadiran_model extends CI_Model {
 
 
-    public function getDateFirstUpdate()
-    {
+    public function getDateFirstUpdate() {
         $this->db->select('tanggal');
         $this->db->order_by('tanggal', 'ASC');
 
         if ($result = $this->db->get('kehadiran')->row_array()) {
             return $result['tanggal'];
-        } else {
-            return '0001-01-01';
         }
+        return '0001-01-01';
     }
 
-    public function getDateLastUpdate()
-    {
+    public function getDateLastUpdate() {
         $this->db->select('tanggal');
         $this->db->order_by('tanggal', 'DESC');
 
@@ -27,8 +23,7 @@ class Kehadiran_model extends CI_Model
         }
     }
 
-    public function getDatesKehadiran($id)
-    {
+    public function getDatesKehadiran($idPegawai) {
         $this->load->model('Libur_model');
         $libur = $this->Libur_model->getDatesLiburs();
 
@@ -44,7 +39,7 @@ class Kehadiran_model extends CI_Model
         $this->db->where("jam_keluar < '24:00:00'");
         $this->db->where("DAYOFWEEK(tanggal) <> 1");
         $this->db->where("DAYOFWEEK(tanggal) <> 7");
-        $this->db->where('nip', $id);
+        $this->db->where('nip', $idPegawai);
         if ($result = $this->db->get('kehadiran')->result_array()) {
             return $result;
         } else {
@@ -52,8 +47,7 @@ class Kehadiran_model extends CI_Model
         }
     }
 
-    public function getCountPresent($id, $month, $year)
-    {
+    public function getCountPresent($idPegawai, $month, $year) {
         $this->load->model('Libur_model');
         $libur = $this->Libur_model->getDatesLiburs();
 
@@ -71,7 +65,7 @@ class Kehadiran_model extends CI_Model
         $this->db->where("DAYOFWEEK(tanggal) <> 7");
         $this->db->where('MONTH(tanggal)', $month);
         $this->db->where('YEAR(tanggal)', $year);
-        $this->db->where('nip', $id);
+        $this->db->where('nip', $idPegawai);
 
         if ($result = $this->db->get('kehadiran')->num_rows()) {
             return $result;
@@ -80,8 +74,7 @@ class Kehadiran_model extends CI_Model
         }
     }
 
-    public function getCountPresentUnit($unit, $month, $year)
-    {
+    public function getCountPresentUnit($unit, $month, $year) {
         $this->load->model('Libur_model');
         $libur = $this->Libur_model->getDatesLiburs();
 
@@ -111,8 +104,7 @@ class Kehadiran_model extends CI_Model
         }
     }
 
-    public function getCountPresents($month, $year)
-    {
+    public function getCountPresents($month, $year) {
         $this->load->model('Libur_model');
         $libur = $this->Libur_model->getDatesLiburs();
 
@@ -141,8 +133,7 @@ class Kehadiran_model extends CI_Model
         }
     }
 
-    public function getCountNotPresent($id, $month, $year)
-    {
+    public function getCountNotPresent($id, $month, $year) {
         $this->load->helper('date');
         $this->load->model('Libur_model');
         $firstUpdate = $this->getDateFirstUpdate();
@@ -176,8 +167,7 @@ class Kehadiran_model extends CI_Model
         }
     }
 
-    public function getCountNotPresentUnit($unit, $month, $year)
-    {
+    public function getCountNotPresentUnit($unit, $month, $year) {
         $this->load->helper('date');
         $this->load->model('Libur_model');
         $this->load->model('User_model');
@@ -213,8 +203,7 @@ class Kehadiran_model extends CI_Model
         }
     }
 
-    public function getCountNotPresents($month, $year)
-    {
+    public function getCountNotPresents($month, $year) {
         $this->load->helper('date');
         $this->load->model('Libur_model');
         $this->load->model('User_model');
@@ -250,8 +239,7 @@ class Kehadiran_model extends CI_Model
         }
     }
 
-    public function getCountLate($id, $month, $year)
-    {
+    public function getCountLate($idPegawai, $month, $year) {
         $this->load->model('Libur_model');
         $libur = $this->Libur_model->getDatesLiburs();
 
@@ -269,7 +257,7 @@ class Kehadiran_model extends CI_Model
         $this->db->where("DAYOFWEEK(tanggal) <> 7");
         $this->db->where('MONTH(tanggal)', $month);
         $this->db->where('YEAR(tanggal)', $year);
-        $this->db->where('nip', $id);
+        $this->db->where('nip', $idPegawai);
 
         if ($result = $this->db->get('kehadiran')->num_rows()) {
             return $result;
@@ -278,8 +266,7 @@ class Kehadiran_model extends CI_Model
         }
     }
 
-    public function getCountLateUnit($unit, $month, $year)
-    {
+    public function getCountLateUnit($unit, $month, $year) {
         $this->load->model('Libur_model');
         $libur = $this->Libur_model->getDatesLiburs();
 
@@ -308,8 +295,7 @@ class Kehadiran_model extends CI_Model
         }
     }
 
-    public function getCountLates($month, $year)
-    {
+    public function getCountLates($month, $year) {
         $this->load->model('Libur_model');
         $libur = $this->Libur_model->getDatesLiburs();
 
@@ -335,13 +321,11 @@ class Kehadiran_model extends CI_Model
         }
     }
 
-    public function getListYearFirstLast()
-    {
+    public function getListYearFirstLast() {
         return range(date("Y", strtotime($this->getDateFirstUpdate())), date("Y", strtotime($this->getDateLastUpdate())));
     }
 
-    public function getListMonthFirstLast($year)
-    {
+    public function getListMonthFirstLast($year) {
         if (strtotime($this->getDateFirstUpdate()) > strtotime(date($year . '-01-01'))) {
             $start = $this->getDateFirstUpdate();
         } else {
@@ -353,12 +337,12 @@ class Kehadiran_model extends CI_Model
             $end = date($year . '-12-12');
         }
         $months = range(date("m", strtotime($start)), date("m", strtotime($end)));
-        $i = 0;
+        $itr = 0;
         foreach ($months as $month) {
             if (strlen($month) == 1) {
-                $months[$i] = '0' . $months[$i];
+                $months[$itr] = '0' . $months[$itr];
             }
-            $i++;
+            $itr++;
         }
         return $months;
     }
