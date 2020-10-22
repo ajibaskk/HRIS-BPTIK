@@ -254,14 +254,14 @@ class Cuti_model extends CI_Model {
         return $cuti;
     }
 
-    public function getDinasLuarIndividu($id) {
+    public function getDinasLuarIndividu($idCuti) {
         $this->db->select('cp.id_cuti_pegawai, u.foto, u.nip, u.alamat, u.jenis_kelamin, u.nama, k.nama_unit, u.tempat_lahir, u.tanggal_lahir, c.jenis, cp.alasan, cp.persetujuan, cp.tanggal_cuti_mulai, cp. tanggal_cuti_akhir, cp.file, cp.type');
         $this->db->from('users as u, unit_kerja as k, cuti_pegawai as cp, jenis_cuti as c');
         $this->db->where('u.unit_kerja = k.id_unit_kerja');
         $this->db->where('u.nip = cp.nip');
         $this->db->where('cp.jenis = 4');
         $this->db->where('cp.jenis = c.id_jenis_cuti');
-        $this->db->where('cp.id_cuti_pegawai', $id);
+        $this->db->where('cp.id_cuti_pegawai', $idCuti);
         $dinasluar = $this->db->get()->row_array();
         $dinasluar['foto'] = base64_encode($dinasluar['foto']);
         $dinasluar['file'] = base64_encode($dinasluar['file']);

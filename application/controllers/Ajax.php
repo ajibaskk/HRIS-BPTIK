@@ -31,8 +31,8 @@ class Ajax extends CI_Controller {
     public function getCuti2($idPegawai) {
         if ($this->session->has_userdata('user')) {
             $this->load->model('Cuti_model');
-            $dl = $this->Cuti_model->getDinasLuarIndividu($idPegawai);
-            echo json_encode($dl);
+            $dLuar = $this->Cuti_model->getDinasLuarIndividu($idPegawai);
+            echo json_encode($dLuar);
         }
     }
 

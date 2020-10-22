@@ -133,7 +133,7 @@ class Kehadiran_model extends CI_Model {
         }
     }
 
-    public function getCountNotPresent($id, $month, $year) {
+    public function getCountNotPresent($idLibur, $month, $year) {
         $this->load->helper('date');
         $this->load->model('Libur_model');
         $firstUpdate = $this->getDateFirstUpdate();
@@ -154,7 +154,7 @@ class Kehadiran_model extends CI_Model {
             $days = daysBetween($end, $start);
             $weekdays = countWeekday($start, $end);
             $holiday = $this->Libur_model->getCountLiburBetween($start, $end);
-            $present = $this->getCountPresent($id, $month, $year);
+            $present = $this->getCountPresent($idLibur, $month, $year);
 
             $result = $days - $weekdays - $holiday - $present;
             if ($result < 0) {
